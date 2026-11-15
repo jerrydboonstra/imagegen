@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "imagegen",
+  "description": "Generate or edit images from Claude Code through Codex CLI's built-in image generator.",
+  "owner": { "name": "Jerry Boonstra", "url": "https://github.com/jerrydboonstra" },
+  "plugins": [
+    {
+      "name": "imagegen",
+      "description": "Generate or edit images through Codex CLI's $imagegen skill, with an SVG or prompt fallback when Codex isn't available.",
+      "source": "./",
+      "category": "productivity",
+      "version": "0.2.0"
+    }
+  ]
+}
