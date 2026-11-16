@@ -1,6 +1,6 @@
 {
   "name": "imagegen",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Generate or edit images (logos, icons, social cards, mockups) through Codex CLI's built-in $imagegen skill on the user's ChatGPT login, with an SVG or prompt fallback when Codex isn't available.",
   "author": { "name": "Jerry Boonstra", "url": "https://github.com/jerrydboonstra" },
   "license": "MIT",

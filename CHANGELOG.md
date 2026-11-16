@@ -1,5 +1,9 @@
 # imagegen changelog
 
+## 0.2.3 (2026-11-15)
+
+- Added a short contributing guide, a security note, issue forms and a test workflow.
+
 ## 0.2.2 (2026-11-15)
 
 - The README no longer asks for an invite: the repo is public.

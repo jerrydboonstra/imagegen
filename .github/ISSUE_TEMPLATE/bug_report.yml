@@ -1,0 +1,31 @@
+name: Bug report
+description: imagegen crashed, made the wrong image, or changed pixels it should have kept.
+labels: [bug]
+body:
+  - type: textarea
+    id: ran
+    attributes:
+      label: What you ran
+      description: "The request you gave Claude, or the command you ran, such as `composite.py ...`."
+    validations:
+      required: true
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened
+      description: "The error, or what the image looked like. Remove anything private, such as file paths or names."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: "imagegen version (as /plugin shows it), Claude Code version (`claude --version`), Codex CLI version (`codex --version`) and your operating system."
+    validations:
+      required: true
