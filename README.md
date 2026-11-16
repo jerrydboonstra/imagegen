@@ -6,6 +6,34 @@
 
 **imagegen lets Claude Code make images and edit them the way you edit code: change one part, and the rest stays exactly as it was. It runs on Codex CLI's image generator and your own ChatGPT login, so you stop pasting prompts into ChatGPT and screenshots back.**
 
+## Install
+
+Paste this into Claude Code (in the terminal, or in the Code tab of the Claude desktop app):
+
+> Install the plugin imagegen from the marketplace jerrydboonstra/imagegen: run `claude plugin marketplace add jerrydboonstra/imagegen`, then `claude plugin install imagegen@imagegen`. Then run its doctor, `skills/imagegen/doctor.sh` in the installed plugin (it sits under `~/.claude/plugins/cache/imagegen/imagegen/<version>/`). Tell me in plain words what is missing and how to fix each one, and tell me to run /reload-plugins.
+
+Or type this one line in Claude Code (version 2.1.275 or later):
+
+```
+/plugin install imagegen --marketplace jerrydboonstra/imagegen
+```
+
+It asks you to confirm the marketplace (press `y`), then where to install: pick the option "for you", the first one listed.
+
+Or run these two lines in a shell:
+
+```bash
+claude plugin marketplace add jerrydboonstra/imagegen
+claude plugin install imagegen@imagegen
+```
+
+It needs Claude Code, and Codex CLI logged in to a paid ChatGPT plan. Starting from nothing? [Set up from zero](#set-up-from-zero) walks through Homebrew, Claude Code, Codex, Pillow and ImageMagick.
+
+<!-- Private-repo lines: drop this paragraph when the repo goes public (item imagegen-public). -->
+While the repo is private, ask whoever shared it with you to invite your GitHub account, and accept the invite first. `marketplace add` clones with your own git access and never asks for a password, so sign in to GitHub on your machine before you run it. The simplest way is the GitHub command-line tool: `brew install gh`, then `gh auth login`. An SSH key that works without a passphrase also does.
+
+Then ask in plain words, for example: "make a simple flat logo of a green pear on a white background".
+
 Once you have the image, you usually want to improve it a step at a time, and each step should change one thing and leave the rest alone. An image model won't do that. Ask it to fix one leaf and it redraws the whole picture, so the background shifts, the texture moves and the colours drift. imagegen's box mode keeps only the part you meant to change and pastes it back onto the original, so every pixel outside the box stays exactly as it was, for 8-bit RGB or RGBA originals saved as PNG or lossless WebP.
 
 ## What it does
@@ -27,7 +55,7 @@ Box mode works around that in three steps:
 2. Make the edit as usual. It comes back redrawn, often at a different size.
 3. `composite.py` scales the edit to the original's size, cuts out the box, softens its edge on the inside, and pastes it onto the original.
 
-Claude runs `composite.py` for you. To run it by hand, from a clone of this repo:
+Claude runs `composite.py` for you. To run it by hand, you need the plugin's files: the installed copy in `~/.claude/plugins/cache/imagegen/imagegen/<version>/` has them, and so does a clone of this repo. From either folder:
 
 ```bash
 python3 skills/imagegen/composite.py original.png edit.png result.png --box=X,Y,W,H
@@ -43,7 +71,7 @@ One run made three: `apple.png` (generated), `apple-green.png` (an edit; its rec
 
 The image model draws something different on every run, so a recipe records how an image was made and lets you make another like it. It does not bring back the same pixels.
 
-## Install
+## Set up from zero
 
 imagegen runs only in Claude Code, on your own computer: in the terminal, or in the Code tab of the Claude desktop app. It does not run in Cowork or in claude.ai chat, because the skill runs Codex and other shell commands on your machine.
 
@@ -60,15 +88,7 @@ Then you need, in this order:
 3. **Python 3 with Pillow** (a Python image library), which box mode needs and the doctor (below) checks for. The doctor can set it up when yours has none.
 4. **ImageMagick**, recommended, for resizing and quick checks: `brew install imagemagick` on a Mac. The doctor offers to install it.
 
-Then add the plugin, in a terminal (a marketplace is a catalog of plugins; this repo is one):
-
-```bash
-claude plugin marketplace add jerrydboonstra/imagegen
-claude plugin install imagegen@imagegen
-```
-
-<!-- Private-repo lines: drop this paragraph when the repo goes public (item imagegen-public). -->
-While the repo is private, ask whoever shared it with you to invite your GitHub account, and accept the invite first. `marketplace add` clones with your own git access and never asks for a password, so sign in to GitHub on your machine before you run it. The simplest way is the GitHub command-line tool: `brew install gh`, then `gh auth login`. An SSH key that works without a passphrase also does.
+Then add the plugin with any of the three ways under [Install](#install) at the top of this page.
 
 The install prints `Successfully installed plugin`. Start Claude Code again to load it, or run `/reload-plugins` in a session that is already open. To check that it loaded, run `claude plugin list`, or type `/` in a session and look for `/imagegen:imagegen`. The Code tab shares these settings, so the plugin shows up there too.
 
@@ -78,7 +98,7 @@ On a Linux box with no browser, Codex's device-code login may be refused. Log in
 
 ## Doctor
 
-Ask Claude to "run the imagegen doctor". It checks that everything above is in place and offers to fix what is missing: Codex installed and logged in, Python with Pillow, ImageMagick (recommended, not required). It prints one line for each, with the fix for any that fails, and asks before it installs anything. The skill also runs it before your first image. In a clone of this repo you can run it yourself: `bash skills/imagegen/doctor.sh`.
+Ask Claude to "run the imagegen doctor". It checks that everything in Set up from zero is in place and offers to fix what is missing: Codex installed and logged in, Python with Pillow, ImageMagick (recommended, not required). It prints one line for each, with the fix for any that fails, and asks before it installs anything. The skill also runs it before your first image. To run it yourself, from `~/.claude/plugins/cache/imagegen/imagegen/<version>/` (or from a clone of this repo): `bash skills/imagegen/doctor.sh`.
 
 ## Worked example: the pear's leaf
 

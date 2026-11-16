@@ -9,7 +9,7 @@
       "description": "Generate or edit images through Codex CLI's $imagegen skill, with an SVG or prompt fallback when Codex isn't available.",
       "source": "./",
       "category": "productivity",
-      "version": "0.2.0"
+      "version": "0.2.1"
     }
   ]
 }
