@@ -1,5 +1,9 @@
 # imagegen changelog
 
+## 0.2.2 (2026-11-15)
+
+- The README no longer asks for an invite: the repo is public.
+
 ## 0.2.1 (2026-11-15)
 
 - **The README opens with Install.** Three ways in (a prompt to paste into Claude Code, the `/plugin install ... --marketplace` line, and two shell lines), then what you need and a first prompt. The long setup is now "Set up from zero", and it says where the installed plugin's files are for running `composite.py` or the doctor by hand.

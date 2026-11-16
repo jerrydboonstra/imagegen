@@ -1,4 +1,3 @@
-<!-- Social preview (proposal): use the kerchief logo, the Dark Wine silk square with "imagegen" in gold script and a needle mid-stitch. It reads well small and carries the name. Keep the pear as the hero below. -->
 
 <img src="images/pear.png" alt="A green pear drawn in fine dots, with a red leaf on its stem and four corner marks framing the leaf." width="320">
 
@@ -29,8 +28,6 @@ claude plugin install imagegen@imagegen
 
 It needs Claude Code, and Codex CLI logged in to a paid ChatGPT plan. Starting from nothing? [Set up from zero](#set-up-from-zero) walks through Homebrew, Claude Code, Codex, Pillow and ImageMagick.
 
-<!-- Private-repo lines: drop this paragraph when the repo goes public (item imagegen-public). -->
-While the repo is private, ask whoever shared it with you to invite your GitHub account, and accept the invite first. `marketplace add` clones with your own git access and never asks for a password, so sign in to GitHub on your machine before you run it. The simplest way is the GitHub command-line tool: `brew install gh`, then `gh auth login`. An SSH key that works without a passphrase also does.
 
 Then ask in plain words, for example: "make a simple flat logo of a green pear on a white background".
 
