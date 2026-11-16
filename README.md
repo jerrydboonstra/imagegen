@@ -3,6 +3,8 @@
 
 # imagegen
 
+[![tests](https://github.com/jerrydboonstra/imagegen/actions/workflows/tests.yml/badge.svg)](https://github.com/jerrydboonstra/imagegen/actions/workflows/tests.yml) [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 **imagegen lets Claude Code make images and edit them the way you edit code: change one part, and the rest stays exactly as it was. It runs on Codex CLI's image generator and your own ChatGPT login, so you stop pasting prompts into ChatGPT and screenshots back.**
 
 ## Install

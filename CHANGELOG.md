@@ -1,5 +1,9 @@
 # imagegen changelog
 
+## Unreleased
+
+- The README shows a tests badge and an MIT license badge under its title.
+
 ## 0.2.3 (2026-11-15)
 
 - Added a short contributing guide, a security note, issue forms and a test workflow.
