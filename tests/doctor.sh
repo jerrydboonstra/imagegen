@@ -19,7 +19,8 @@ for c in bash sed grep head cat mkdir mktemp rm sleep tr dirname uname touch tim
 done
 # env VAR: a fresh PATH folder $t/p-<name> holding the system links; add fakes with fake <folder> <name> <body>
 newpath() { rm -rf "$t/p-$1"; mkdir -p "$t/p-$1"; ln -s "$t"/sys/* "$t/p-$1/"; }
-fake() { printf '#!/bin/sh\n%s\n' "$3" > "$t/p-$1/$2"; chmod +x "$t/p-$1/$2"; }
+# fake removes the destination first, so a link (symbolic or hard) is replaced and never written through
+fake() { rm -f "$t/p-$1/$2"; printf '#!/bin/sh\n%s\n' "$3" > "$t/p-$1/$2"; chmod +x "$t/p-$1/$2"; }
 run() { local p=$1; shift; out=$(env -i HOME="$t/home" PATH="$t/p-$p" IMAGEGEN_DOCTOR_TIMEOUT=2 /bin/bash "$@" 2>&1 </dev/null); rc=$?; }
 
 echo "== 1: no codex"
@@ -96,6 +97,15 @@ newpath slowpy; fake slowpy python3 'sleep 30'; rm -f "$M"
 s=$SECONDS; hook slowpy; e=$((SECONDS - s))
 [ "$rc" = 0 ] && [ "$e" -le 2 ] && ok "a hung python: hook still exits 0 within 2 s (${e}s)" || bad "slow python: exit $rc after ${e}s: $out"
 env -i HOME="$t/home" PATH="$t/p-good" CLAUDE_PLUGIN_ROOT="$t/nowhere" /bin/bash "$H" >/dev/null 2>&1; [ $? = 0 ] && ok "a broken plugin root: still exit 0" || bad "broken root"
+
+echo "== 6: fake never writes through a link"
+newpath lnk; printf 'real tool\n' > "$t/real-tool"; chmod 755 "$t/real-tool"; sum=$(cksum < "$t/real-tool")
+ln -s "$t/real-tool" "$t/p-lnk/codex"; ln "$t/real-tool" "$t/p-lnk/magick"
+fake lnk codex 'exit 0'; fake lnk magick 'exit 0'
+[ "$(cksum < "$t/real-tool")" = "$sum" ] && [ "$(cat "$t/real-tool")" = "real tool" ] && [ "$(stat -c %a "$t/real-tool" 2>/dev/null || stat -f %Lp "$t/real-tool")" = 755 ] \
+  && ok "the file a link pointed at is unchanged after fake writes" || bad "fake wrote through a link: $(cat "$t/real-tool")"
+[ -f "$t/p-lnk/codex" ] && [ ! -L "$t/p-lnk/codex" ] && [ -f "$t/p-lnk/magick" ] && [ "$(stat -c %h "$t/p-lnk/magick" 2>/dev/null || stat -f %l "$t/p-lnk/magick")" = 1 ] \
+  && grep -q 'exit 0' "$t/p-lnk/codex" && ok "a symlinked and a hard-linked destination each become a regular file holding the fake" || bad "destination still a link or not written"
 
 echo "$pass passed, $fail failed"
 [ "$fail" = 0 ]
