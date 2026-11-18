@@ -2,6 +2,7 @@
 
 ## 0.2.4 (unreleased)
 
+- The README shows a CI badge and an MIT license badge under its title.
 - **A neckbeard report says what imagegen adds to a session.** `docs/neckbeard-report.md` lists the skill, the hook and what each loads, and the README shows its badge under the title.
 - The README links this changelog near the top and in the license paragraph.
 
